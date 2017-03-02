@@ -8,7 +8,7 @@
 
 void schedule();
 
-static struct task_struct init_task = {0, NULL, THREAD_RUNNING, 0, 0, 15, {0}};
+static struct task_struct init_task = {0, NULL, THREAD_RUNNING, 0, 0, 15, 15, {0}};
 
 struct task_struct *current = &init_task;
 
@@ -18,9 +18,10 @@ struct task_struct *task[NR_TASKS] = {&init_task,};
 static void start(struct task_struct *tsk) {
   tsk->th_fn();
   tsk->status = THREAD_EXIT;
-  printf("thread %d exited\n", tsk->id);
+  printf("thread [%d] exited\n", tsk->id);
   schedule();
-  printf("thread %d resume\n", tsk->id);
+  // 下面这一行永远不会被执行
+  printf("thread [%d] resume\n", tsk->id);
 }
 
 int thread_create(int *tid, void (*start_routine)()) {
@@ -42,6 +43,7 @@ int thread_create(int *tid, void (*start_routine)()) {
   tsk->wakeuptime = 0;
   tsk->status = THREAD_RUNNING;
   tsk->counter = 15;
+  tsk->priority = 15;
    
   // 初始 switch_to 函数栈帧
   stack[STACK_SIZE-11] = 7; // eflags

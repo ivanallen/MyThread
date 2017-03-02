@@ -7,7 +7,7 @@ void fun1() {
   int i = 10;
   while(i--) {
     printf("hello, I'm fun1\n");
-    mysleep(4);
+    mysleep(2);
   }
 }
 
@@ -23,7 +23,7 @@ void fun3() {
   int i = 2;
   while(i--) {
     printf("hello, I'm fun3\n");
-    mysleep(1);
+    mysleep(5);
   }
 }
 

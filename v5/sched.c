@@ -48,7 +48,7 @@ static struct task_struct *pick() {
     if (c == 0) {
       for (i = 0; i < NR_TASKS; ++i) {
         if(task[i]) {
-          task[i]->counter = 15 + (task[i]->counter >> 1);
+          task[i]->counter = task[i]->priority + (task[i]->counter >> 1);
         }
       }
     }
@@ -81,6 +81,7 @@ void schedule() {
     if (next) {
       switch_to(next);
     }
+    // schedule 永远不会返回
 }
 
 void mysleep(int seconds) {
@@ -102,7 +103,7 @@ static void init() {
   value.it_value.tv_sec = 0;
   value.it_value.tv_usec = 1000;
   value.it_interval.tv_sec = 0;
-  value.it_interval.tv_usec = 1000; // 1 ms
+  value.it_interval.tv_usec = 1000*10; // 10 ms
   if (setitimer(ITIMER_REAL, &value, NULL) < 0) {
     perror("setitimer");
   }

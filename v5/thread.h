@@ -10,12 +10,16 @@
 #define THREAD_EXIT 3
 
 struct task_struct {
+  /******** 这三行不能动 ***********/
   int id;
   void (*th_fn)();
   int esp; // 保存 esp
+  /*********************************/
+
   unsigned int wakeuptime; // 线程唤醒时间
   int status; // 线程状态
   int counter; // 时间片
+  int priority; // 线程优先级
   int stack[STACK_SIZE];
 };
 
