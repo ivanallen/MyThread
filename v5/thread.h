@@ -4,9 +4,10 @@
 #define NR_TASKS 16
 #define STACK_SIZE 1024 // 1024*4 B
 
-#define THREAD_RUNNING 0
-#define THREAD_SLEEP 1
-#define THREAD_EXIT 2
+#define THREAD_READY 0
+#define THREAD_RUNNING 1
+#define THREAD_SLEEP 2
+#define THREAD_EXIT 3
 
 struct task_struct {
   int id;

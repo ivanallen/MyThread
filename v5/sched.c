@@ -27,8 +27,7 @@ static struct task_struct *pick() {
 
   for (i = 0; i < NR_TASKS; ++i) {
     if (task[i] && task[i]->status != THREAD_EXIT
-        && getmstime() > task[i]->wakeuptime)
-    {
+        && getmstime() > task[i]->wakeuptime) {
       task[i]->status = THREAD_RUNNING;
     }
   }
@@ -58,6 +57,23 @@ static struct task_struct *pick() {
   return task[next];
 }
 
+void closealarm() {
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGALRM);
+    if (sigprocmask(SIG_BLOCK, &mask, NULL) < 0) {
+      perror("sigprocmask BLOCK");
+    }
+}
+
+void openalarm() {
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGALRM);
+    if (sigprocmask(SIG_UNBLOCK, &mask, NULL) < 0) {
+      perror("sigprocmask BLOCK");
+    }
+}
 
 
 void schedule() {
@@ -76,15 +92,17 @@ void mysleep(int seconds) {
 static void do_timer() {
   if (--current->counter > 0) return;
   current->counter = 0;
+  schedule();
+  //printf("do_timer\n");
 }
 
 __attribute__((constructor))
 static void init() {
   struct itimerval value;
   value.it_value.tv_sec = 0;
-  value.it_value.tv_usec = 1000*20;
+  value.it_value.tv_usec = 1000;
   value.it_interval.tv_sec = 0;
-  value.it_interval.tv_usec = 1000*100; // 1 ms
+  value.it_interval.tv_usec = 1000; // 1 ms
   if (setitimer(ITIMER_REAL, &value, NULL) < 0) {
     perror("setitimer");
   }

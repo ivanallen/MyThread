@@ -29,8 +29,13 @@ void fun3() {
 
 void fun4() {
   int i = 15;
+  int m;
+  int n;
   while(i--) {
     printf("hello, I'm fun4\n");
+    // sleep 会失效（因为有信号产生），这里用循环。
+    for (m = 0; m < 10000; ++m)
+      for (n = 0; n < 10000; ++n);
   }
 }
 

@@ -18,7 +18,9 @@ struct task_struct *task[NR_TASKS] = {&init_task,};
 static void start(struct task_struct *tsk) {
   tsk->th_fn();
   tsk->status = THREAD_EXIT;
+  printf("thread %d exited\n", tsk->id);
   schedule();
+  printf("thread %d resume\n", tsk->id);
 }
 
 int thread_create(int *tid, void (*start_routine)()) {
@@ -66,19 +68,4 @@ int thread_join(int tid) {
   task[tid] = NULL;
 }
 
-static void do_timer() {
-}
-
-__attribute__((constructor))
-static void init() {
-  struct itimerval value;
-  value.it_value.tv_sec = 0;
-  value.it_value.tv_usec = 1000*20;
-  value.it_interval.tv_sec = 0;
-  value.it_interval.tv_usec = 1000*100; // 1 ms
-  if (setitimer(ITIMER_REAL, &value, NULL) < 0) {
-    perror("setitimer");
-  }
-  signal(SIGALRM, do_timer);
-}
 
