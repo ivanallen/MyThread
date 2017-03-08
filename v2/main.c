@@ -25,10 +25,10 @@ struct task_struct *pick() {
 
   struct task_struct *next = NULL;
   
-  while(++i != current_id) {
-    i = i % NR_TASKS;
+  while(1) {
+    i = (i + 1) % NR_TASKS;
 
-    if (task[i] && task[i] != current) {
+    if (task[i]) {
       next = task[i];
       break;
     }

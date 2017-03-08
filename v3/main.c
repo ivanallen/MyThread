@@ -74,7 +74,6 @@ void fun3() {
 void start(struct task_struct *tsk) {
   tsk->th_fn();
   task[tsk->id] = NULL;
-  free(tsk);
   schedule();
 }
 

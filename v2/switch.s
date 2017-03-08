@@ -1,4 +1,4 @@
-/*void switch_to(int n)*/
+/*void switch_to(struct task_struct* next)*/
 
 .section .text
 .global switch_to
