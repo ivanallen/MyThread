@@ -19,10 +19,7 @@ static unsigned int getmstime() {
 }
 
 static struct task_struct *pick() {
-  int current_id  = current->id;
-  int i = current_id;
-
-  int next, c;
+  int i, next, c;
 
 
   for (i = 0; i < NR_TASKS; ++i) {
