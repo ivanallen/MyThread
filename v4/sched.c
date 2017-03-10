@@ -18,16 +18,28 @@ static unsigned int getmstime() {
 
 static struct task_struct *pick() {
   int current_id  = current->id;
-  int i = current_id;
+  int i;
 
   struct task_struct *next = NULL;
+
+repeat:
+  for (i = 0; i < NR_TASKS; ++i) {
+    if (task[i] && task[i]->status == THREAD_SLEEP) {
+      if (getmstime() > task[i]->wakeuptime)
+        task[i]->status = THREAD_RUNNING;
+    }
+  }
+
+  i = current_id;
   
   while(1) {
     i = (i + 1) % NR_TASKS;
-    if (task[i] && task[i]->status != THREAD_EXIT
-        && getmstime() > task[i]->wakeuptime) {
+    if (i == current_id) {
+      // 循环了一圈说明没找到可被调度的线程
+      goto repeat;
+    }
+    if (task[i] && task[i]->status == THREAD_RUNNING) {
       next = task[i];
-      next->status = THREAD_RUNNING;
       break;
     }
   } 
