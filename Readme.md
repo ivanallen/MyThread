@@ -6,6 +6,6 @@
 - v4 是分模块，并添加 mysleep 等
 - v5 添加了时钟，线程有自己的时间片。调度代码参考了 linux 0.11
 
-# CSDN blog 
+# chat 地址
 
-地址：http://blog.csdn.net/q1007729991/article/category/6762479
+地址：https://gitbook.cn/gitchat/activity/5c83b0e7066b712da9b0595f
